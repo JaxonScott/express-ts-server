@@ -25,7 +25,7 @@ route.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.send(post);
     }
     catch (err) {
-        res.send("Unable to find post with that id");
+        res.send("Unable to find post with this id");
     }
 }));
 route.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,6 +33,7 @@ route.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         title: req.body.title,
         body: req.body.body,
         author: req.body.author,
+        status: req.body.status,
     });
     yield post.save();
     return res.send(post);
@@ -54,6 +55,7 @@ route.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 title: req.body.title,
                 body: req.body.body,
                 author: req.body.author,
+                status: req.body.status,
             },
         }, { new: true });
         res.send(updatePost);

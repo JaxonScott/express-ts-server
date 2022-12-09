@@ -13,7 +13,7 @@ route.get("/:id", async (req: Request, res: Response) => {
     const post = await Post.findById({ _id: req.params.id });
     return res.send(post);
   } catch (err) {
-    res.send("Unable to find post with that id");
+    res.send("Unable to find post with this id");
   }
 });
 
@@ -22,6 +22,7 @@ route.post("/", async (req: Request, res: Response) => {
     title: req.body.title,
     body: req.body.body,
     author: req.body.author,
+    status: req.body.status,
   });
   await post.save();
   return res.send(post);
@@ -46,6 +47,7 @@ route.patch("/:id", async (req: Request, res: Response) => {
           title: req.body.title,
           body: req.body.body,
           author: req.body.author,
+          status: req.body.status,
         },
       },
       { new: true }
