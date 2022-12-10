@@ -13,18 +13,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const helpers_1 = require("../utils/helpers");
 const User_1 = __importDefault(require("../models/User"));
 const route = (0, express_1.Router)();
 route.get("/", (req, res) => {
     res.send("This is the auth route 🔐");
 });
 route.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
+    const { username } = req.body;
     const userDB = yield User_1.default.findOne({ username });
     if (userDB) {
         res.sendStatus(400);
     }
     else {
+        const password = (0, helpers_1.hashPassword)(req.body.password);
+        console.log(`Password hash: ${password}`);
         const user = new User_1.default({
             username,
             password,

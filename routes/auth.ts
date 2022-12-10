@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { hashPassword, comparePassword } from "../utils/helpers";
 import User from "../models/User";
 const route = Router();
 
@@ -14,11 +15,13 @@ route.get("/", (req: Request, res: Response) => {
 });
 
 route.post("/register", async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const { username } = req.body;
   const userDB = await User.findOne({ username });
   if (userDB) {
     res.sendStatus(400);
   } else {
+    const password = hashPassword(req.body.password);
+    console.log(`Password hash: ${password}`);
     const user = new User({
       username,
       password,
