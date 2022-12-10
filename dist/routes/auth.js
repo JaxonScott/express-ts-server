@@ -36,24 +36,26 @@ route.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.send(`new user added ${username}`);
     }
 }));
-route.post("/login", (req, res) => {
+route.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
-    //check if username & password was passed
-    if (username && password) {
-        //check if the user already has a logged in session
-        if (req.session.user) {
-            res.send(req.session.user);
-            //if not create a session
-        }
-        else {
-            req.session.user = {
-                username,
-            };
-            res.send(req.session);
-        }
+    //if no username or password passed return 400
+    if (!username || !password)
+        return res.sendStatus(400);
+    //find user by username in db
+    const userDB = yield User_1.default.findOne({ username });
+    //if no user found with that username return 401
+    if (!userDB)
+        return res.sendStatus(401);
+    //if found compare the raw to hashed password
+    const isValid = (0, helpers_1.comparePassword)(password, userDB.password);
+    if (isValid) {
+        console.log("Authenticated successfully 👍");
+        req.session.user = userDB;
+        return res.sendStatus(200);
     }
     else {
-        res.sendStatus(400);
+        console.log("authentication failed 👎");
+        return res.sendStatus(401);
     }
-});
+}));
 exports.default = route;

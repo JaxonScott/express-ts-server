@@ -1,6 +1,5 @@
-import e, { Router, Request, Response, NextFunction } from "express";
+import  { Router, Request, Response, NextFunction } from "express";
 import session from "express-session";
-import { request } from "http";
 import Product from "../models/Product";
 
 const route = Router();

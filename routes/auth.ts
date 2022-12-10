@@ -31,22 +31,23 @@ route.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-route.post("/login", (req: Request, res: Response) => {
+route.post("/login", async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  //check if username & password was passed
-  if (username && password) {
-    //check if the user already has a logged in session
-    if (req.session.user) {
-      res.send(req.session.user);
-      //if not create a session
-    } else {
-      req.session.user = {
-        username,
-      };
-      res.send(req.session);
-    }
+  //if no username or password passed return 400
+  if (!username || !password) return res.sendStatus(400);
+  //find user by username in db
+  const userDB = await User.findOne({ username });
+  //if no user found with that username return 401
+  if (!userDB) return res.sendStatus(401);
+  //if found compare the raw to hashed password
+  const isValid = comparePassword(password, userDB.password);
+  if (isValid) {
+    console.log("Authenticated successfully 👍");
+    req.session.user = userDB;
+    return res.sendStatus(200);
   } else {
-    res.sendStatus(400);
+    console.log("authentication failed 👎");
+    return res.sendStatus(401);
   }
 });
 
