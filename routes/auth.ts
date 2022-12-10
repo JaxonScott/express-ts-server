@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-
+import User from "../models/User";
 const route = Router();
 
 //creating and exporting the type user for express-session types
@@ -9,9 +9,23 @@ declare module "express-session" {
   }
 }
 
-
 route.get("/", (req: Request, res: Response) => {
   res.send("This is the auth route 🔐");
+});
+
+route.post("/register", async (req: Request, res: Response) => {
+  const { username, password } = req.body;
+  const userDB = await User.findOne({ username });
+  if (userDB) {
+    res.sendStatus(400);
+  } else {
+    const user = new User({
+      username,
+      password,
+    });
+    await user.save();
+    return res.send(`new user added ${username}`);
+  }
 });
 
 route.post("/login", (req: Request, res: Response) => {

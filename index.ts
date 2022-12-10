@@ -1,4 +1,5 @@
 import express, { Express, Response, Request, NextFunction } from "express";
+import mongoose from "mongoose";
 import session from "express-session";
 import dbConnect from "./config/db";
 import "dotenv/config";
