@@ -64,5 +64,4 @@ route.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.send("unable to update post");
     }
 }));
-const postRoute = route;
-exports.default = postRoute;
+exports.default = route;

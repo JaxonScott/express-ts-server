@@ -1,10 +1,9 @@
-import { stat } from "fs";
 import { Schema, model } from "mongoose";
 
 enum status {
   start = "Started",
   progress = "In progress",
-  completed = "completed",
+  completed = "Completed",
 }
 
 interface IPost {

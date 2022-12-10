@@ -58,5 +58,4 @@ route.patch("/:id", async (req: Request, res: Response) => {
   }
 });
 
-const postRoute = route;
-export default postRoute;
+export default route;

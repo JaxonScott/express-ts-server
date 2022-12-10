@@ -5,7 +5,7 @@ var status;
 (function (status) {
     status["start"] = "Started";
     status["progress"] = "In progress";
-    status["completed"] = "completed";
+    status["completed"] = "Completed";
 })(status || (status = {}));
 const PostSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
