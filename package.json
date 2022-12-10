@@ -18,6 +18,7 @@
     "@types/node": "^18.11.12",
     "@types/passport": "^1.0.11",
     "@types/passport-local": "^1.0.34",
+    "connect-mongo": "^4.6.0",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "mongoose": "^6.8.0",

@@ -1,6 +1,7 @@
 import express, { Express, Response, Request, NextFunction } from "express";
 import session from "express-session";
 import passport from "passport";
+import MongoStore from "connect-mongo";
 import dbConnect from "./config/db";
 
 import "dotenv/config";
@@ -29,6 +30,9 @@ app.use(
     secret: "KASD0KAMSD1MKE2KDASDDWMQN2KLMSAKLD209IMKL",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({ 
+      mongoUrl: process.env.MONGO_URI
+    })
   })
 );
 

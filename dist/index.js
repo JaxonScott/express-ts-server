@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const express_session_1 = __importDefault(require("express-session"));
 const passport_1 = __importDefault(require("passport"));
+const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const db_1 = __importDefault(require("./config/db"));
 require("dotenv/config");
 require("./strategies/local");
@@ -28,6 +29,9 @@ app.use((0, express_session_1.default)({
     secret: "KASD0KAMSD1MKE2KDASDDWMQN2KLMSAKLD209IMKL",
     resave: false,
     saveUninitialized: false,
+    store: connect_mongo_1.default.create({
+        mongoUrl: process.env.MONGO_URI
+    })
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
