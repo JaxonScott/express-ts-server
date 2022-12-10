@@ -1,8 +1,10 @@
 import express, { Express, Response, Request, NextFunction } from "express";
-import mongoose from "mongoose";
 import session from "express-session";
+import passport from "passport";
 import dbConnect from "./config/db";
+
 import "dotenv/config";
+import "./strategies/local";
 //middleware
 import cors from "cors";
 import authCheck from "./middleware/authCheck";
@@ -29,6 +31,9 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/api/auth", authRoute);
 app.use(authCheck);

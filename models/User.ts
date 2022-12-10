@@ -1,8 +1,9 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
-interface IUser {
+export interface IUser {
   username: string;
   password: string;
+  id: string;
   createdAt: number;
 }
 

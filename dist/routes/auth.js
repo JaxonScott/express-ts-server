@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const helpers_1 = require("../utils/helpers");
+const passport_1 = __importDefault(require("passport"));
 const User_1 = __importDefault(require("../models/User"));
 const route = (0, express_1.Router)();
 route.get("/", (req, res) => {
@@ -36,26 +37,27 @@ route.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.send(`new user added ${username}`);
     }
 }));
-route.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
-    //if no username or password passed return 400
-    if (!username || !password)
-        return res.sendStatus(400);
-    //find user by username in db
-    const userDB = yield User_1.default.findOne({ username });
-    //if no user found with that username return 401
-    if (!userDB)
-        return res.sendStatus(401);
-    //if found compare the raw to hashed password
-    const isValid = (0, helpers_1.comparePassword)(password, userDB.password);
-    if (isValid) {
-        console.log("Authenticated successfully 👍");
-        req.session.user = userDB;
-        return res.sendStatus(200);
-    }
-    else {
-        console.log("authentication failed 👎");
-        return res.sendStatus(401);
-    }
-}));
+// route.post("/login", async (req: Request, res: Response) => {
+//   const { username, password } = req.body;
+//   //if no username or password passed return 400
+//   if (!username || !password) return res.sendStatus(400);
+//   //find user by username in db
+//   const userDB = await User.findOne({ username });
+//   //if no user found with that username return 401
+//   if (!userDB) return res.sendStatus(401);
+//   //if found compare the raw to hashed password
+//   const isValid = comparePassword(password, userDB.password);
+//   if (isValid) {
+//     console.log("Authenticated successfully 👍");
+//     req.session.user = userDB;
+//     return res.sendStatus(200);
+//   } else {
+//     console.log("authentication failed 👎");
+//     return res.sendStatus(401);
+//   }
+// });
+route.post("/login", passport_1.default.authenticate("local"), (req, res) => {
+    console.log("Logged in");
+    res.sendStatus(200);
+});
 exports.default = route;
