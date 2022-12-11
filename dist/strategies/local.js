@@ -52,10 +52,12 @@ passport_1.default.use(new passport_local_1.Strategy({
         //if there is compare the raw password to the users hashed password in the db
         const isValid = (0, helpers_1.comparePassword)(password, userDB.password);
         if (isValid) {
+            //if valid set user == to user from db
             console.log("Authenticated successfully 👍");
             done(null, userDB);
         }
         else {
+            //if not valid return err
             console.log("authentication failed 👎");
             done(null, null);
         }

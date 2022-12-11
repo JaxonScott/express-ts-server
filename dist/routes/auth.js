@@ -20,6 +20,12 @@ const route = (0, express_1.Router)();
 route.get("/", (req, res) => {
     res.send("This is the auth route 🔐");
 });
+route.post("/logout", (req, res) => {
+    req.session.destroy((err) => {
+        res.redirect("/");
+    });
+    console.log("logged out");
+});
 route.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username } = req.body;
     const userDB = yield User_1.default.findOne({ username });

@@ -15,6 +15,13 @@ route.get("/", (req: Request, res: Response) => {
   res.send("This is the auth route 🔐");
 });
 
+route.post("/logout", (req: Request, res: Response) => {
+  req.session.destroy((err) => {
+    res.redirect("/");
+  });
+  console.log("logged out");
+});
+
 route.post("/register", async (req: Request, res: Response) => {
   const { username } = req.body;
   const userDB = await User.findOne({ username });
